@@ -9,14 +9,21 @@ $code.addEventListener('input', (e) => {
     const splittedCode = splitCode(stringFullCode);
     
     const numberOfLines = stringFullCode.split('\n').length;
-// console.log(numberOfLines)
-    output = ''
+
+    let output = ''
     for(let i = 0; i < numberOfLines; i++) {
-        const code = eval(splittedCode.filter(x => x.rowNumber == i + 1)[0]?.statement) || '';
-        output = `${output}${code}\n`
+        let result = '';
+        const statement = splittedCode.filter(x => x.rowNumber == i + 1)[0].statement || ''
+
+        if (statement) {
+            let tempCode = splittedCode.filter(x => x.rowNumber < i + 2).map(x => x.statement).join('\n')
+            console.log(tempCode)
+            result = eval(tempCode) || ''
+        }
+
+        output += `${result}\n`
     }
-// console.log(output)
-    // $console.value = splittedCode.map(x => `${x.rowNumber} ${eval(x.statement)}\n`)
+
     $console.value = output
 
 })
@@ -24,22 +31,9 @@ $code.addEventListener('input', (e) => {
 const splitCode = (code) => {
     const tempCodeList = []
 
-    tempCode = ''
     code.split('\n').forEach((statement, index) => {
-        try {
-            const s = `${tempCode}${statement}`;
-            eval(s)
-            tempCodeList.push({statement: s, rowNumber: index + 1})
-            tempCode = ''
-        } catch (error) {
-            tempCode = 
-`${tempCode}
-${statement}`;
-        }
+        tempCodeList.push({statement, rowNumber: index + 1})
     })
-    tempCodeList.push(tempCode)
-
-    tempCodeList.forEach(x => console.log(x))
 
     return tempCodeList;
 }
