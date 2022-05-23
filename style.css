@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-areas:    "header header"
+                            "code console";
+    grid-template-rows: 50px auto;
+    height: 100vh;
+}
+
+.header {
+    grid-area: header;
+    background-color: aliceblue;
+}
+
+.code {
+    grid-area: code;
+    background-color: lightgray;
+}
+
+.console {
+    grid-area: console;
+    background-color: lightblue;
+}
