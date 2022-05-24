@@ -15,6 +15,8 @@
 .header {
     grid-area: header;
     background-color: aliceblue;
+    padding: 0.5em 1em;
+    box-sizing: border-box;
 }
 
 .code {
@@ -26,4 +28,13 @@
     grid-area: console;
     background-color: lightblue;
     line-height: 21px;
+}
+
+h1 {
+    margin: 0;
+    font-family: system-ui;
+}
+
+textarea {
+    padding: 0.5em;
 }

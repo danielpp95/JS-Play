@@ -4,66 +4,103 @@ const $$ = selector => document.querySelectorAll(selector);
 $code = $('.code')
 $console = $('.console')
 
-$code.addEventListener('input', (e) => {
-    const stringFullCode = e.target.value
-    const splittedCode = splitCode(stringFullCode);
-    
-    const splittedCodeString = stringFullCode.split('\n');
-    const numberOfLines = splittedCodeString.length;
-
-    let output = ''
-    for(let i = 0; i < numberOfLines; i++) {
-        let result = '';
-        const statement = splittedCode.filter(x => x.rowNumber == i + 1)[0]?.statement || ''
-
-        if (statement) {
-            const index = splittedCodeString.indexOf(statement)
-            const statementsArray = splittedCode.slice(0, index).map(x => x.statement)
-            
-            let tempCode = `${statementsArray.join(';')};${statement};`
-            
-            result = isIgnoredOutput(`${statement};`) ? '' : eval(tempCode) || '';
-        }
-
-        output += `${i + 1} ${result}\n`
-    }
-
-    $console.value = output
-
+$code.addEventListener('keyup', () => {
+    RunJS($code.value);
 })
 
-const splitCode = (code) => {
-    const statementsList = []
-    const codeLines = code.split('\n');
-
-    tempCode = ''
-    codeLines.forEach((codeLine, index) => {
-        try {
-            const statement = `${codeLines.slice(0, index ).join(';')};${codeLine};`;
-
-            eval(statement)
-
-            statementsList.push({statement: `${tempCode}${codeLine}`, rowNumber: index + 1})
-            tempCode = ''
-        } catch (error) {
-            tempCode = `${tempCode}${codeLine}`;
-        }
-    })
-
-    return statementsList;
+function RunJS(code) {
+    const codeBlocks = SplitCode(code);
+    const consoleOutput = GetConsoleOutput(codeBlocks);
+    RenderOutput(code, consoleOutput)
 }
 
-function isIgnoredOutput (statement) {
-    statement = statement.trim();
+function RenderOutput(code, output) {
+    $console.value = '';
 
-    if (statement == '') return true
+    code.split('\n').forEach((_, index) => {
+        const value = output.filter(x => x.rowNumber === index + 1)[0]?.value || ''
 
-    const reservedWords = ['function', 'const', 'var', '\n', 'let']
+        $console.value += index + ' ';
+        $console.value += value;
+        $console.value += '\n';
+    })
+}
 
-    for (let index = 0; index < reservedWords.length; index++) {
-        const word = reservedWords[index];
-        if (statement.startsWith(word)) return true
+function GetConsoleOutput(blocks) {
+    let output = [];
+
+    const declarationBlocks = blocks
+        .filter(x => x.type === 'Statement')
+        .map(x => x.statement)
+        .join('');
+
+    blocks
+        .filter(x => x.type === 'Execution')
+        .forEach(x => {
+            output.push({rowNumber: x.rowNumber, value: eval(`${declarationBlocks}${x.statement}`)})
+        })
+    
+    return output;
+}
+
+function SplitCode(code) {
+    let codeBlocks = []
+
+    for(const _ in code.split('\n')) {
+        codeBlocks.push(BuildBlocks(code, codeBlocks))
     }
 
-    return false;
+    codeBlocks = codeBlocks.filter(x => x !== undefined).filter(x => x.statement !== '')
+
+    return codeBlocks.map(x => {return {...x, type: GetBlockType(x)}})
+}
+
+function GetBlockType (block) {
+    const statementWords = ['const', 'var', 'let', 'function'];
+
+    for (let index = 0; index < statementWords.length; index++) {
+        const word = statementWords[index];
+
+        if (block.statement.startsWith(word)) {
+            return 'Statement';
+        }
+    }
+
+    return 'Execution';
+}
+
+function BuildBlocks(code, codeBlocks) {
+    const lastIndex = codeBlocks?.at(-1)?.rowNumber ?? 0;
+    let partialBlock = '';
+    
+    for (let i = lastIndex; i < code.split('\n').length; i++) {
+        const line = code.split('\n')[i];
+        const block = `${partialBlock}${line}`;
+
+        try {
+            const blocks = codeBlocks.map(x => x.statement).join('');
+            const statement = AddSemicolon(`${blocks}${block}`);
+            
+            eval(statement);
+
+            return {
+                statement: AddSemicolon(block),
+                rowNumber: i + 1
+            }
+        } catch (error) {
+            partialBlock = block;
+        }
+    }
+}
+
+function AddSemicolon(statement) {
+    if (statement.length === 0) {
+        return statement;
+    }
+
+    if (statement.at(-1) === ';') {
+        return statement;
+    }
+
+    return `${statement};`;
 }
