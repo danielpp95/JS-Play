@@ -18,10 +18,10 @@ function RenderOutput(code, output) {
     $console.value = '';
 
     code.split('\n').forEach((_, index) => {
-        const value = output.filter(x => x.rowNumber === index + 1)[0]?.value || ''
+        const value = output.filter(x => x.rowNumber === index + 1)[0]?.value || undefined
 
         $console.value += index + ' ';
-        $console.value += value;
+        $console.value += JSON.stringify(value) || '';
         $console.value += '\n';
     })
 }
