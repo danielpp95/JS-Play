@@ -23,7 +23,6 @@ $code.addEventListener('input', (e) => {
             let tempCode = `${statementsArray.join(';')};${statement};`
             
             result = isIgnoredOutput(`${statement};`) ? '' : eval(tempCode) || '';
-            console.log(tempCode, i)
         }
 
         output += `${result}\n`
