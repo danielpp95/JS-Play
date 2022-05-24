@@ -22,7 +22,7 @@ $code.addEventListener('input', (e) => {
             
             let tempCode = `${statementsArray.join(';')};${statement};`
             
-            result = isIgnoredOutput(`${statement};`) ? '' : eval(tempCode) || '';
+            result = isIgnoredOutput(`${statement};`) ? '' : JSON.stringify(eval(tempCode)) || '';
         }
 
         output += `${result}\n`
