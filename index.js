@@ -8,7 +8,8 @@ $code.addEventListener('input', (e) => {
     const stringFullCode = e.target.value
     const splittedCode = splitCode(stringFullCode);
     
-    const numberOfLines = stringFullCode.split('\n').length;
+    const splittedCodeString = stringFullCode.split('\n');
+    const numberOfLines = splittedCodeString.length;
 
     let output = ''
     for(let i = 0; i < numberOfLines; i++) {
@@ -16,11 +17,13 @@ $code.addEventListener('input', (e) => {
         const statement = splittedCode.filter(x => x.rowNumber == i + 1)[0]?.statement || ''
 
         if (statement) {
-            const statementsArray = splittedCode.slice(0, i + 1).map(x => x.statement)
-            // console.log(statementsArray, i)
-            let tempCode = statementsArray.join(';')
-            // console.log(tempCode, i)
-            result = isIgnoredOutput(statement) ? '' : eval(tempCode) || ''
+            const index = splittedCodeString.indexOf(statement)
+            const statementsArray = splittedCode.slice(0, index).map(x => x.statement)
+            
+            let tempCode = `${statementsArray.join(';')};${statement};`
+            
+            result = isIgnoredOutput(`${statement};`) ? '' : eval(tempCode) || '';
+            console.log(tempCode, i)
         }
 
         output += `${result}\n`
@@ -34,13 +37,11 @@ const splitCode = (code) => {
     const statementsList = []
     const codeLines = code.split('\n');
 
-    // let statementList = ['']
-
     tempCode = ''
     codeLines.forEach((codeLine, index) => {
         try {
-            const statement = `${codeLines.slice(0, index).join('')}${codeLine};`;
-            // console.log(statement)
+            const statement = `${codeLines.slice(0, index ).join(';')};${codeLine};`;
+
             eval(statement)
 
             statementsList.push({statement: `${tempCode}${codeLine}`, rowNumber: index + 1})
@@ -58,14 +59,11 @@ function isIgnoredOutput (statement) {
 
     if (statement == '') return true
 
-    const reservedWords = ['function', 'const', 'var', '\n']
+    const reservedWords = ['function', 'const', 'var', '\n', 'let']
 
     for (let index = 0; index < reservedWords.length; index++) {
         const word = reservedWords[index];
-        if (statement.startsWith(word)) {
-            return true
-        }
-        
+        if (statement.startsWith(word)) return true
     }
 
     return false;
