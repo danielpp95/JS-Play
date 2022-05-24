@@ -1,5 +1,5 @@
 import { $ } from './utils'
-import editorInitialConfig from './editor.config.json'
+import editorInitialConfig from '../../editor.config.json'
 import * as monaco from 'monaco-editor'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // import jsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'

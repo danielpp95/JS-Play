@@ -1,10 +1,10 @@
 import { $ } from './utils'
 
-$code = $('.code')
-$console = $('.console')
+const $code = $('.code')
+const $console = $('.console')
 
-$code.addEventListener('keyup', () => {
-    RunJS($code.value);
+$code.addEventListener('keyup', (e) => {
+    RunJS(e.target.value);
 })
 
 function RunJS(code) {
