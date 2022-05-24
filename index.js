@@ -22,10 +22,10 @@ $code.addEventListener('input', (e) => {
             
             let tempCode = `${statementsArray.join(';')};${statement};`
             
-            result = isIgnoredOutput(`${statement};`) ? '' : JSON.stringify(eval(tempCode)) || '';
+            result = isIgnoredOutput(`${statement};`) ? '' : eval(tempCode) || '';
         }
 
-        output += `${result}\n`
+        output += `${i + 1} ${result}\n`
     }
 
     $console.value = output
