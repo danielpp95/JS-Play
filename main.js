@@ -1,5 +1,4 @@
-const $ = selector => document.querySelector(selector);
-const $$ = selector => document.querySelectorAll(selector);
+import { $ } from './utils'
 
 $code = $('.code')
 $console = $('.console')
