@@ -10,5 +10,6 @@
     "wrappingIndent": "same",
     "mouseWheelZoom": true,
     "copyWithSyntaxHighlighting": true,
-    "theme": "vs-dark"
+    "theme": "vs-dark",
+    "automaticLayout": true
 }

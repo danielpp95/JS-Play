@@ -1,28 +1,39 @@
 import { $ } from './utils'
+import { codeEditor, updateConsoleEditor, updateConsoleEditorPosition } from "./monaco";
 
 const $code = $('.code')
-const $console = $('.console')
+
+RunJS(codeEditor.getValue())
 
 $code.addEventListener('keyup', (e) => {
     RunJS(e.target.value);
 })
 
+var lastExecution = "";
 function RunJS(code) {
+    if (code === lastExecution) {
+        return
+    }
+    
     const codeBlocks = SplitCode(code);
     const consoleOutput = GetConsoleOutput(codeBlocks);
     RenderOutput(code, consoleOutput)
+    lastExecution = code
 }
 
 function RenderOutput(code, output) {
-    $console.value = '';
+    let outputValue = '';
 
     code.split('\n').forEach((_, index) => {
         const value = output.filter(x => x.rowNumber === index + 1)[0]?.value || undefined
 
-        $console.value += index + ' ';
-        $console.value += JSON.stringify(value) || '';
-        $console.value += '\n';
+        const stringifyValue = JSON.stringify(value) || ''
+        const val = index === 0 ? stringifyValue : `\n${stringifyValue}`
+        outputValue += val || '';
     })
+    
+    updateConsoleEditor(outputValue);
+    updateConsoleEditorPosition();
 }
 
 function GetConsoleOutput(blocks) {
