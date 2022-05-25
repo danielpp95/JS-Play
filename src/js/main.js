@@ -66,7 +66,7 @@ function SplitCode(code) {
 }
 
 function GetBlockType (block) {
-    const statementWords = ['const', 'var', 'let', 'function'];
+    const statementWords = ['const', 'var', 'let', 'function', 'class'];
 
     for (let index = 0; index < statementWords.length; index++) {
         const word = statementWords[index];
