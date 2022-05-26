@@ -1,12 +1,9 @@
-import { $ } from './utils'
-import { codeEditor, updateConsoleEditor, updateConsoleEditorPosition } from "./monaco";
-
-const $code = $('.code')
+import { codeEditor, updateConsoleEditor, updateConsoleEditorPosition, onConsoleEditorKeyUp } from "./monaco";
 
 RunJS(codeEditor.getValue())
 
-$code.addEventListener('keyup', (e) => {
-    RunJS(e.target.value);
+onConsoleEditorKeyUp((e) => {
+    RunJS(e.getValue());
 })
 
 var lastExecution = "";
@@ -85,6 +82,7 @@ function BuildBlocks(code, codeBlocks) {
     
     for (let i = lastIndex; i < code.split('\n').length; i++) {
         const line = code.split('\n')[i];
+
         const block = `${partialBlock}${line}`;
 
         try {

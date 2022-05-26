@@ -33,3 +33,4 @@ consoleEditor.onDidScrollChange(e => codeEditor.setScrollTop(e.scrollTop))
   
 export const updateConsoleEditor = value => consoleEditor.getModel().setValue(value)
 export const updateConsoleEditorPosition = _ => consoleEditor.setPosition(codeEditor.getPosition());
+export const onConsoleEditorKeyUp = callback => codeEditor.getModel().onDidChangeContent(e => callback(codeEditor))
