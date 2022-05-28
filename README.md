@@ -88,6 +88,7 @@ Test the app in dev mode.
   // or
   $ yarn dev
   ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- USAGE EXAMPLES -->
@@ -95,6 +96,8 @@ Test the app in dev mode.
 ![fruits-example](https://firebasestorage.googleapis.com/v0/b/playground-js-a2d13.appspot.com/o/fruits.png?alt=media)
 
 ![prototype-example](https://firebasestorage.googleapis.com/v0/b/playground-js-a2d13.appspot.com/o/prototype.png?alt=media)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- CONTRIBUTING -->
