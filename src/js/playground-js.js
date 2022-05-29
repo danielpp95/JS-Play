@@ -115,6 +115,7 @@ function RunJS(code) {
         .join('\n');
 
     updateConsoleEditor(output)
+    lastExecution = code;
 }
 
 RunJS(codeEditor.getValue())
