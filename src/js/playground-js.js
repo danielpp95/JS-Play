@@ -6,7 +6,7 @@ import {
 
 import { Extends } from "./utils";
 
-Extends(String.prototype, "AddSemicolon", codeBlock => 
+Extends(String.prototype, "AddSemicolon", codeBlock =>
     (codeBlock.length === 0 || codeBlock.at(-1) === ';') ?
         codeBlock :
         codeBlock + ";"
@@ -15,7 +15,7 @@ Extends(String.prototype, "AddSemicolon", codeBlock =>
 function BuildBlocks(codeBlocks, splittedCode) {
     const lastIndex = codeBlocks?.at(-1)?.rowNumber ?? 0;
     let partialBlock = '';
-    
+
     for (let i = lastIndex; i < splittedCode.length; i++) {
         const line = splittedCode[i].trim();
 
@@ -48,27 +48,47 @@ Extends(String.prototype, "SplitCode", (code) => {
 
     return codeBlocks
         .filter(x => x !== undefined)
-        .filter(x => x.code !== '');
+        .filter(x => x.code !== '')
+        .filter(x => x.type !== 'Comment');
 })
+
+function addType(block, words, Type) {
+    if (block.type === undefined || block.type === null) {
+        for (let index = 0; index < words.length; index++) {
+            const word = words[index];
+            
+            if (block.code.startsWith(word)) {
+                block = {...block, type: Type};
+                break;
+            }
+        }
+    }
+    
+    return block;
+}
 
 Extends(Array.prototype, "AddBlockType", blocks => {
     const statementWords = ['const', 'var', 'let', 'function', 'class'];
-    
-    for (let i = 0; i < blocks.length; i++) {
-        const block = blocks[i];
-        for (let index = 0; index < statementWords.length; index++) {
-            const word = statementWords[index];
-            
-            if (block.code.startsWith(word)) {
-                blocks[i] = {...block, type: "Statement"};
-                break;
-            }
+    const ignoredWords = ['//']
 
-            blocks[i] = {...block, type: "Execution"};
+    for (let i = 0; i < blocks.length; i++) {
+        let block = blocks[i];
+
+        block = addType(block, ignoredWords, "Comment")
+        block = addType(block, statementWords, "Statement")
+
+        if (block.type === undefined) {
+            block = {...block, type: "Execution"};
         }
+
+        blocks[i] = block;
     }
 
     return blocks;
+})
+
+Extends(Array.prototype, "FilterInvalidBlocks", blocks => {
+    return blocks.filter(x => x.type !== 'Comment')
 })
 
 let lastExecution = "";
@@ -79,8 +99,9 @@ function RunJS(code) {
 
     const codeBlocks = code
         .SplitCode()
-        .AddBlockType();
-    
+        .AddBlockType()
+        .FilterInvalidBlocks();
+
     const output = codeEditor
         .getValue()
         .split('\n')
