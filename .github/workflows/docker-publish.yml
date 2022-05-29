@@ -31,4 +31,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: danielpp95/play.js:latest
+          tags: ${{ github.actor }}/play.js:latest
