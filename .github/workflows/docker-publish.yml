@@ -47,3 +47,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           push: true
           tags: latest
+          context: .
