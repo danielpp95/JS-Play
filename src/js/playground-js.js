@@ -111,7 +111,8 @@ function RunJS(code) {
     const output = codeEditor
         .getValue()
         .split('\n')
-        .map((_, index) => codeBlocks.filter(b => b.rowNumber === index + 1)[0]?.result || '')
+        .map((_, index) => codeBlocks.filter(b => b.rowNumber === index + 1)[0]?.result)
+        .map((x, index) => JSON.stringify(x) || '')
         .join('\n');
 
     updateConsoleEditor(output)
