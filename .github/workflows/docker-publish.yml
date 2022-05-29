@@ -47,5 +47,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           push: true
           repository: danielpp95/play.js
-          tags: latest, ${{ github.run_number }}
+          tags: prd, ${{ github.run_number }}
       
