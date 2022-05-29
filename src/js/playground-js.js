@@ -19,10 +19,16 @@ function BuildBlocks(codeBlocks, splittedCode) {
     for (let i = lastIndex; i < splittedCode.length; i++) {
         const line = splittedCode[i].trim();
 
-        const block = `${partialBlock}${line}`;
+        let block = `${partialBlock}${line}`;
 
         try {
             const blocks = codeBlocks.map(x => x.code).join('');
+
+            let lineNumber = i
+            while(block.startsWith('.') && lineNumber >= 0) {
+                block = `${splittedCode[--lineNumber].trim()}${block}`
+            }
+
             const statement = `${blocks}${block}`.AddSemicolon();
 
             const result = eval(statement);
