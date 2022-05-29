@@ -6,11 +6,9 @@ WORKDIR /app
 
 ADD . .
 
-#RUN npm install
+RUN npm install
 
-# ENTRYPOINT ["/entrypoint.sh"]
-
-#RUN npm run build
+RUN npm run build
 
 EXPOSE 10000
-#CMD [ "http-server", "dist", "--port",  "10000" ]
+CMD [ "http-server", "dist", "--port",  "10000" ]
