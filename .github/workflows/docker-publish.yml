@@ -48,3 +48,4 @@ jobs:
           push: true
           tags: latest
           context: .
+          file: ./Dockerfile
