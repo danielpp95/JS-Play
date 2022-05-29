@@ -1,4 +1,4 @@
-name: Docker
+name: ci
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,31 +6,12 @@ name: Docker
 # documentation.
 
 on:
-  schedule:
-    - cron: '20 9 * * *'
   push:
     branches: [ master ]
-    # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ master ]
-
-env:
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: danielpp95/play.js
-
 
 jobs:
-  build:
-
+  docker:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      # This is used to complete the identity challenge
-      # with sigstore/fulcio when running outside of PRs.
-      id-token: write
-
     steps:
       -
         name: Set up QEMU
