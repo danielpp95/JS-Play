@@ -47,7 +47,10 @@ function BuildBlocks(codeBlocks, splittedCode) {
         let block = `${partialBlock}${line}`;
 
         try {
-            const blocks = codeBlocks.map(x => x.code).join('');
+            const blocks = codeBlocks
+                .filter(x => x.type === "Statement")
+                .map(x => x.code)
+                .join('');
 
             let lineNumber = i
             while(block.startsWith('.') && lineNumber >= 0) {
@@ -60,11 +63,13 @@ function BuildBlocks(codeBlocks, splittedCode) {
 
             const result = eval(statement);
 
-            return {
+            const codeBlock = {
                 code: block.AddSemicolon(),
                 rowNumber: i + 1,
                 result: result,
             }
+
+            return codeBlock.AddBlockType()
         } catch (error) {
             partialBlock = block;
         }
@@ -96,28 +101,24 @@ function addType(block, words, Type) {
             }
         }
     }
-    
+
     return block;
 }
 
-Extends(Array.prototype, "AddBlockType", blocks => {
+Extends(Object.prototype, "AddBlockType", block => {
     const statementWords = ['const', 'var', 'let', 'function', 'class'];
     const ignoredWords = ['//']
 
-    for (let i = 0; i < blocks.length; i++) {
-        let block = blocks[i];
+    let tempBlock = {...block}
 
-        block = addType(block, ignoredWords, "Comment")
-        block = addType(block, statementWords, "Statement")
+    tempBlock = addType(tempBlock, ignoredWords, "Comment")
+    tempBlock = addType(tempBlock, statementWords, "Statement")
 
-        if (block.type === undefined) {
-            block = {...block, type: "Execution"};
-        }
-
-        blocks[i] = block;
+    if (tempBlock.type === undefined) {
+        tempBlock = {...tempBlock, type: "Execution"};
     }
 
-    return blocks;
+    return tempBlock;
 })
 
 Extends(Array.prototype, "FilterInvalidBlocks", blocks => {
@@ -132,14 +133,13 @@ function RunJS(code) {
 
     const codeBlocks = code
         .SplitCode()
-        .AddBlockType()
         .FilterInvalidBlocks();
 
     const output = codeEditor
         .getValue()
         .split('\n')
         .map((_, index) => codeBlocks.filter(b => b.rowNumber === index + 1)[0]?.result)
-        .map((x, index) => JSON.stringify(x) || '')
+        .map((x) => JSON.stringify(x) || '')
         .join('\n');
 
     updateConsoleEditor(output)
