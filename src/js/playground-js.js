@@ -12,6 +12,31 @@ Extends(String.prototype, "AddSemicolon", codeBlock =>
         codeBlock + ";"
 );
 
+Extends(String.prototype, "ThrowIfInvalid", codeBlock => {
+    if(codeBlock.startsWith("for")) {
+        const semicolons = codeBlock.split('').filter(x => x === ";");
+        if (semicolons.length >= 2) {
+            const starIndex = codeBlock.indexOf("(") + 1
+            const endIndex = codeBlock.indexOf(")")
+            
+            const splittedCode = codeBlock
+                .slice(starIndex, endIndex)
+                .split(';');
+
+            if (
+                splittedCode[0].trim() === "" ||
+                splittedCode[1].trim() === "" ||
+                splittedCode[2].trim() === "" ||
+                splittedCode[2].trim().length < 3
+            ) {
+                throw "INVALID FOR STATEMENT";
+            }
+        }
+    }
+
+    return codeBlock;
+});
+
 function BuildBlocks(codeBlocks, splittedCode) {
     const lastIndex = codeBlocks?.at(-1)?.rowNumber ?? 0;
     let partialBlock = '';
@@ -29,7 +54,9 @@ function BuildBlocks(codeBlocks, splittedCode) {
                 block = `${splittedCode[--lineNumber].trim()}${block}`
             }
 
-            const statement = `${blocks}${block}`.AddSemicolon();
+            const statement = `${blocks}${block}`
+                .AddSemicolon()
+                .ThrowIfInvalid();
 
             const result = eval(statement);
 
