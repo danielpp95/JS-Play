@@ -48,7 +48,6 @@ function BuildBlocks(codeBlocks, splittedCode) {
 
         try {
             const blocks = codeBlocks
-                .filter(x => x.type === "Statement")
                 .map(x => x.code)
                 .join('');
 
@@ -145,8 +144,6 @@ function RunJS(code) {
     updateConsoleEditor(output)
     lastExecution = code;
 }
-
-RunJS(codeEditor.getValue())
 
 onConsoleEditorKeyUp((e) => {
     RunJS(e.getValue());
