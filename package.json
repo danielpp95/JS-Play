@@ -8,9 +8,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "5.0.8"
+    "vite": "5.0.12"
   },
   "dependencies": {
-    "monaco-editor": "0.45.0"
+    "monaco-editor": "0.45.0",
+    "zustand": "4.5.0"
   }
 }

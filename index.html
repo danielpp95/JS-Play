@@ -10,12 +10,52 @@
 </head>
 <body>
     <div class="grid">
+        <!-- HEADER -->
         <div class="header">
             <h1>Playground.js</h1>
         </div>
 
+        <!-- EDITORS -->
         <div class="code"></div>
         <div class="console"></div>
+
+        <!-- FORM SETTINGS -->
+        <form id="settings">
+            <div class="settings-item">
+                <strong>Font Size</strong>
+                <input name="fontSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    type="number" wrap="off" value="16" min="1" max="100" step="1" />
+            </div>
+
+            <div class="settings-item">
+                <strong>Tab Size</strong>
+                <input name="tabSize" class="input" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    type="number" wrap="off" value="2" min="1" max="100" step="1" />
+            </div>
+
+            <div class="settings-item">
+                <strong>Minimap</strong>
+                <label class="checkbox">
+                    <input name="minimap" type="checkbox" />
+                </label>
+            </div>
+
+            <div class="settings-item">
+                <strong>Font Ligatures</strong>
+                <label class="checkbox">
+                    <input name="fontLigatures" type="checkbox" />
+                </label>
+            </div>
+
+            <div class="settings-item">
+                <strong>
+                  Local storage
+                </strong>
+                <label class="checkbox">
+                    <input name="saveLocalStorage" type="checkbox" />
+                </label>
+            </div>
+        </form>
     </div>
     <script type="module" src="./src/js/index.js"></script>
 </body>

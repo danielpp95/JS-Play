@@ -1,8 +1,8 @@
-import { $ } from './utils'
-import editorInitialConfig from '../../editor.config.json'
+import { $ } from './utils/dom'
 import * as monaco from 'monaco-editor'
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+import { getState, subscribe } from './state'
 
 self.MonacoEnvironment = {
     getWorker(_, label) {
@@ -16,21 +16,38 @@ self.MonacoEnvironment = {
     }
 }
 
+const editorState = getState();
+
 export const codeEditor = monaco.editor.create($('.code'), {
-    ...editorInitialConfig,
-})
+    ...editorState,
+});
 
 const consoleEditor = monaco.editor.create($('.console'), {
-    ...editorInitialConfig,
+    ...editorState,
     readOnly: true,
-})
+});
 
-codeEditor.onDidScrollChange(e => consoleEditor.setScrollTop(e.scrollTop))
-codeEditor.onDidChangeCursorPosition(e => consoleEditor.setPosition(e.position))
+const EDITORS = [codeEditor, consoleEditor];
+
+subscribe(state => {
+    const newOptions = {...state, minimap: { enabled: state.minimap }};
+
+    Object.values(EDITORS).forEach(editor => {
+        editor.updateOptions({
+            ...editor.getRawOptions(),
+            ...newOptions,
+        });
+    });
+});
+
+// Sync editors scroll
+codeEditor.onDidScrollChange(e => consoleEditor.setScrollTop(e.scrollTop));
+consoleEditor.onDidScrollChange(e => codeEditor.setScrollTop(e.scrollTop));
+
+// Sync editors cursor
+codeEditor.onDidChangeCursorPosition(e => consoleEditor.setPosition(e.position));
+
 codeEditor.focus();
-
-consoleEditor.onDidScrollChange(e => codeEditor.setScrollTop(e.scrollTop))
   
-export const updateConsoleEditor = value => consoleEditor.getModel().setValue(value)
-export const updateConsoleEditorPosition = _ => consoleEditor.setPosition(codeEditor.getPosition());
-export const onConsoleEditorKeyUp = callback => codeEditor.getModel().onDidChangeContent(e => callback(codeEditor))
+export const updateConsoleEditorValue = value => consoleEditor.getModel().setValue(value);
+export const onCodeEditorKeyUp = callback => codeEditor.getModel().onDidChangeContent(e => callback(codeEditor));

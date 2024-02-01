@@ -1,23 +1,24 @@
 import {
-    onConsoleEditorKeyUp,
-    updateConsoleEditor,
+    onCodeEditorKeyUp,
+    updateConsoleEditorValue,
 } from "./monaco";
-
-import { Playground } from './playground'
+import './settings';
+import { Playground } from './playground';
 
 let lastExecution = "";
+
 function RunJS(code) {
     if (code === lastExecution) {
         return;
     }
 
-    const playground = new Playground(code)
-    console.log('Playground', playground)
+    const playground = new Playground(code);
 
-    updateConsoleEditor(playground.output)
+    updateConsoleEditorValue(playground.output);
+
     lastExecution = code;
 }
 
-onConsoleEditorKeyUp((e) => {
+onCodeEditorKeyUp((e) => {
     RunJS(e.getValue());
 })

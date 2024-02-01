@@ -11,5 +11,8 @@
     "mouseWheelZoom": true,
     "copyWithSyntaxHighlighting": true,
     "theme": "vs-dark",
-    "automaticLayout": true
+    "automaticLayout": true,
+    "padding": {
+      "top": 16
+    }
 }

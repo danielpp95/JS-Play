@@ -17,16 +17,15 @@
     background-color: aliceblue;
     padding: 0.5em 1em;
     box-sizing: border-box;
+    display: flex;
 }
 
 .code {
     grid-area: code;
-    background-color: #1e1e1e;
 }
 
 .console {
     grid-area: console;
-    background-color: #1e1e1e;
 }
 
 h1 {
@@ -34,7 +33,23 @@ h1 {
     font-family: system-ui;
 }
 
-textarea {
-    padding: 0.5em;
-    line-height: 21px;
+#settings {
+    display: flex;
+    padding: 0.1rem 0.5rem;
+    gap: 14px;
+    align-items: center;
+}
+
+input[type=number] {
+    width: 36px;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+strong {
+    text-wrap: nowrap;
 }
