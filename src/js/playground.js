@@ -31,7 +31,6 @@ class CodeBlock
 
     #Build(existingBlocks) {
         const previousLineIndex = existingBlocks?.at(-1)?.outputIndex ?? 0;
-        console.log('previousLineIndex', previousLineIndex, this.index)
         let partialBlock = '';
 
         
@@ -45,6 +44,7 @@ class CodeBlock
                 const previousBlocksCode = this.code
                     .split('\n')
                     .slice(0, previousLineIndex)
+                    .map(x => `${x}\n`)
                     .join('\n');
 
                 statement = `${previousBlocksCode} ${blockTemp}`;
@@ -59,6 +59,7 @@ class CodeBlock
             catch (error)
             {
                 partialBlock = blockTemp;
+                // console.log(this.index, statement)
             }
         }
     }
