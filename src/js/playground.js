@@ -1,10 +1,14 @@
 import { Extends } from "./utils";
 
-Extends(String.prototype, "AddSemicolon", codeBlock =>
+Extends(String.prototype, "AddEndingSemicolon", codeBlock =>
     (codeBlock.length === 0 || codeBlock.at(-1) === ';')
         ? codeBlock
         : codeBlock + ";"
 );
+
+const STATEMENT = "Statement";
+const COMMENT = "Comment";
+const EXECUTION = "Execution";
 
 class CodeBlock
 {
@@ -13,46 +17,40 @@ class CodeBlock
     outputIndex;
     type;
     index;
+    codeLines;
 
-    constructor(code, existingBlocks, index)
+    constructor(code, existingBlocks, index, codeLines)
     {
         this.code = code;
-        this.index = index
+        this.index = index;
+        this.codeLines = codeLines;
 
-        this.Execute(existingBlocks)
-        this.AddBlockType();
+        this.#Build(existingBlocks)
+        this.#AddBlockType();
     }
 
-    Execute(existingBlocks) {
-        const splittedCode = this.code.split('\n')
-        const lastIndex = existingBlocks?.at(-1)?.outputIndex ?? 0;
+    #Build(existingBlocks) {
+        const previousLineIndex = existingBlocks?.at(-1)?.outputIndex ?? 0;
+        console.log('previousLineIndex', previousLineIndex, this.index)
         let partialBlock = '';
 
-        for (let i = lastIndex; i < splittedCode.length; i++)
+        
+        for (let i = previousLineIndex; i < this.codeLines.length; i++)
         {
-            const line = splittedCode[i].trim();
-            
-            let block = `${partialBlock}${line}`;
-            
+            const codeLine = this.codeLines[i].trim();
+            let blockTemp = `${partialBlock}${codeLine}`;
+            let statement;
             try
             {
-                const blocks = existingBlocks
-                    .map(x => x.code)
-                    .join('');
-                
-                // let lineNumber = i
-                // while(block.startsWith('.') && lineNumber >= 0) {
-                //     block = `${splittedCode[--lineNumber].trim()}${block}`
-                // }
-                
-                const statement = `${blocks}${block}`
-                .AddSemicolon();
-                //ToDo: temporary removed until understand what is this
-                // .ThrowIfInvalid();
-    
+                const previousBlocksCode = this.code
+                    .split('\n')
+                    .slice(0, previousLineIndex)
+                    .join('\n');
+
+                statement = `${previousBlocksCode} ${blockTemp}`;
                 const result = eval(statement);
-                    
-                this.code = block.AddSemicolon();
+
+                this.code = blockTemp.AddEndingSemicolon();
                 this.output = result;
                 this.outputIndex = i + 1;
 
@@ -60,27 +58,26 @@ class CodeBlock
             }
             catch (error)
             {
-                partialBlock = block;
+                partialBlock = blockTemp;
             }
         }
     }
 
-    AddBlockType()
+    #AddBlockType()
     {
-        console.log('AddBlockType');
         const statementWords = ['const', 'var', 'let', 'function', 'class'];
         const ignoredWords = ['//'];
         
-        this.AddType(ignoredWords, "Comment")
-        this.AddType(statementWords, "Statement")
+        this.#AddType(ignoredWords, COMMENT)
+        this.#AddType(statementWords, STATEMENT)
         
         if (this.type === undefined)
         {
-            this.type = "Execution";
+            this.type = EXECUTION;
         }
     }
     
-    AddType(words, type)
+    #AddType(words, type)
     {
         if ((this.type === undefined || this.type === null) &&
             words.some(x => this.code.startsWith(x)))
@@ -100,30 +97,30 @@ export class Playground
     {
         this.#code = code;
 
-        this.Build();
-        this.Render();
+        this.#Build();
+        this.#Render();
     }
 
-    Build()
+    #Build()
     {
         let codeBlocks = [];
         const codeLines = this.#code.split('\n');
 
         for (let index = 0; index < codeLines.length; index++) {
-            codeBlocks.push(new CodeBlock(this.#code, codeBlocks, index))
+            codeBlocks.push(new CodeBlock(this.#code, codeBlocks, index, codeLines))
         }
     
         this.#codeBlocks = codeBlocks
             .filter(x => x !== undefined)
             .filter(x => x.code !== '')
-            .filter(x => x.type !== 'Comment');
+            .filter(x => x.type !== COMMENT);
     }
 
-    Render()
+    #Render()
     {
         this.output = this.#code
             .split('\n')
-            .map((_, index) => this.#codeBlocks.filter(b => b.outputIndex === index + 1)[0]?.output)
+            .map((_, index) => this.#codeBlocks.filter(b => b.outputIndex === index + 1 && b.type === EXECUTION)[0]?.output)
             .map((x) => JSON.stringify(x) || '')
             .join('\n');
     }
