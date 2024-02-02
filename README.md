@@ -11,23 +11,23 @@
 <br />
 
 <div align="center">
-  <a href="https://github.com/danielpp95/playground-js">
+  <a href="https://github.com/danielpp95/JS-Play">
     <img src="https://firebasestorage.googleapis.com/v0/b/playground-js-a2d13.appspot.com/o/profile.png?alt=media&token=ec014511-9a13-42d1-a138-d31f173405e4" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Playground JS</h3>
+  <h3 align="center">JS Play</h3>
 
   <p align="center">
     A place where you can play and test your code.
     <br />
-        <a href="https://github.com/danielpp95/playground-js"><strong>Explore the docs »</strong></a>
+        <a href="https://github.com/danielpp95/JS-Play"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-        <a href="http://code.aod.wtf">View Demo</a>
+        <a href="https://jsplay.vercel.app/">View Demo</a>
         ·
-        <a href="https://github.com/danielpp95/playground-js/issues">Report Bug</a>
+        <a href="https://github.com/danielpp95/JS-Play/issues">Report Bug</a>
         ·
-        <a href="https://github.com/danielpp95/playground-js/issues">Request Feature</a>
+        <a href="https://github.com/danielpp95/JS-Play/issues">Request Feature</a>
   </p>
 </div>
 
@@ -57,7 +57,7 @@
 
 ![Product Name Screen Shot][product-screenshot]
 
-Playground is a live editor for Javascript. It allows you to edit your code in real-time, and see the result instantly.
+JS Play is a live editor for Javascript. It allows you to edit your code in real-time, and see the result instantly.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -149,23 +149,23 @@ Distributed under the MIT License. See `LICENSE.md` for more information.
 
 Daniel Pereira - [@aquiOtroDaniel](https://twitter.com/aquiOtroDaniel) - danielpp95@gmail.com
 
-Project Link: [https://github.com/danielpp95/playground-js](https://github.com/danielpp95/playground-js)
+Project Link: [https://github.com/danielpp95/JS-Play](https://github.com/danielpp95/JS-Play)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/danielpp95/playground-js.svg?style=for-the-badge
-[contributors-url]: https://github.com/danielpp95/playground-js/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/danielpp95/playground-js.svg?style=for-the-badge
-[forks-url]: https://github.com/danielpp95/playground-js/network/members
-[stars-shield]: https://img.shields.io/github/stars/danielpp95/playground-js.svg?style=for-the-badge
-[stars-url]: https://github.com/danielpp95/playground-js/stargazers
-[issues-shield]: https://img.shields.io/github/issues/danielpp95/playground-js.svg?style=for-the-badge
-[issues-url]: https://github.com/danielpp95/playground-js/issues
-[license-shield]: https://img.shields.io/github/license/danielpp95/playground-js.svg?style=for-the-badge
-[license-url]: https://github.com/danielpp95/playground-js/blob/master/LICENSE.md
+[contributors-shield]: https://img.shields.io/github/contributors/danielpp95/JS-Play.svg?style=for-the-badge
+[contributors-url]: https://github.com/danielpp95/JS-Play/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/danielpp95/JS-Play.svg?style=for-the-badge
+[forks-url]: https://github.com/danielpp95/JS-Play/network/members
+[stars-shield]: https://img.shields.io/github/stars/danielpp95/JS-Play.svg?style=for-the-badge
+[stars-url]: https://github.com/danielpp95/JS-Play/stargazers
+[issues-shield]: https://img.shields.io/github/issues/danielpp95/JS-Play.svg?style=for-the-badge
+[issues-url]: https://github.com/danielpp95/JS-Play/issues
+[license-shield]: https://img.shields.io/github/license/danielpp95/JS-Play.svg?style=for-the-badge
+[license-url]: https://github.com/danielpp95/JS-Play/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/danielpp95
 [product-screenshot]: https://firebasestorage.googleapis.com/v0/b/playground-js-a2d13.appspot.com/o/prototype.png?alt=media
