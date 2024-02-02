@@ -3,6 +3,7 @@ import {
     updateConsoleEditorValue,
 } from "./monaco";
 import './settings';
+import './download';
 import { Playground } from './playground';
 
 let lastExecution = "";

@@ -18,6 +18,16 @@
     padding: 0.5em 1em;
     box-sizing: border-box;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-tools{
+    display: flex;
+}
+
+.header-tool{
+    padding: 0.2rem 0.5rem;
 }
 
 .code {

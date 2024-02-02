@@ -59,7 +59,6 @@ class CodeBlock
             catch (error)
             {
                 partialBlock = blockTemp;
-                // console.log(this.index, statement)
             }
         }
     }
