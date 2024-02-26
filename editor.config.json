@@ -14,5 +14,7 @@
     "automaticLayout": true,
     "padding": {
       "top": 16
-    }
+    },
+    "autoSave": true,
+    "text": ""
 }

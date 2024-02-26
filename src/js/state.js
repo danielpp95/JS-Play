@@ -14,5 +14,5 @@ const useStore = createStore(
       { name: 'appInitialState', getStorage: () => window.localStorage }
     )
 );
-  
-export const { getState, setState, subscribe, destroy } = useStore
+
+export const { getState, setState, subscribe } = useStore;

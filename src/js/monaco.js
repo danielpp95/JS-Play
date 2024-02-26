@@ -48,6 +48,7 @@ consoleEditor.onDidScrollChange(e => codeEditor.setScrollTop(e.scrollTop));
 codeEditor.onDidChangeCursorPosition(e => consoleEditor.setPosition(e.position));
 
 codeEditor.focus();
-  
+
 export const updateConsoleEditorValue = value => consoleEditor.getModel().setValue(value);
-export const onCodeEditorKeyUp = callback => codeEditor.getModel().onDidChangeContent(e => callback(codeEditor));
+export const onCodeEditorKeyUp = callback => codeEditor.getModel().onDidChangeContent(_ => callback(codeEditor));
+export const updateCodeEditorValue = value => codeEditor.getModel().setValue(value);

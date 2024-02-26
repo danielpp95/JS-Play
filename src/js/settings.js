@@ -43,6 +43,6 @@ function updateSettingValue ({ target }) {
     if (isRadio) {
       if (!checked) { return }
     }
-  
+
     updateSettings({ key: settingKey, value: settingValue })
 }
